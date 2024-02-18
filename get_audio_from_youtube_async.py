@@ -1,8 +1,9 @@
 import yt_dlp
+import aiofiles
 import os
 
 
-def get_info(url):
+async def get_info(url):
     options = {
         'simulate': True,
         # 'quiet': True
@@ -25,10 +26,12 @@ def get_info(url):
     return 'too_big_size'
 
 
-def get_audio(url):
-    ydl_opts = {}
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        audio_title = ydl.sanitize_info(ydl.extract_info(url, download=False))['title']
+async def get_audio(url):
+    with yt_dlp.YoutubeDL() as ydl:
+        info_dict = ydl.extract_info(url, download=False)
+        audio_title = ydl.prepare_filename(info_dict)
+
+    audio_path = f'data/{audio_title}.mp3'
 
     ydl_opts = {
         'format': 'm4a/bestaudio/best',
@@ -40,12 +43,9 @@ def get_audio(url):
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download(url)
+        ydl.download([url])
 
-    if os.path.getsize(f'data/{audio_title}.mp3') <= 20971520:
-        audio = open(f'data/{audio_title}.mp3', 'rb')
+    if os.path.getsize(f'data/{audio_title}.mp3') <= 20971520:  # Assuming 20 MB limit
+        return audio_path
     else:
-        audio = 'This file is too big'
-    os.remove(f'data/{audio_title}.mp3')
-
-    return audio
+        return 'This file is too big'
