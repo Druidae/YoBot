@@ -11,7 +11,8 @@ import os
 def check_size(url) -> Literal['ok_size', 'too_big_size']:
     # Options for extracting information
     options: dict[str, bool] = {
-        "simulate": True
+        "simulate": True,
+        # 'quiet': True
     }
 
     # Create a YoutubeDL object
