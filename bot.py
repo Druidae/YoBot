@@ -25,8 +25,8 @@ async def send_welcome(message):
     # Send welcome message on default language
     await bot.send_message(
         message.chat.id,
-        "Hello, I'm YoBot :)\n You can send me link and I return you audio file\n If you want to "
-        "change language, please use /language command.(default language - English)",
+        "Hello, I'm YoBot :)\nYou can send me link and I return you audio file.\nIf you want to "
+        "change language, please use /language command.",
     )
 
 
@@ -58,7 +58,7 @@ async def set_language(message):
 
 
 # Handle '/check' command to check link validity
-@bot.message_handler(commands=["check_link"])
+@bot.message_handler(commands=["check"])
 async def check_link(message):
     markup = types.ForceReply(selective=False)
     # Provide a force reply to allow users to input the link they want to check

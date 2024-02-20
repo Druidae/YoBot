@@ -14,7 +14,7 @@ async def check_size(url) -> Literal["ok_size", "too_big_size"]:
     ydl = yt_dlp.YoutubeDL(options)
 
     # Extract video information
-    video_info: dict[str, Any] | None = ydl.extract_info(url=url)
+    video_info: dict[str, Any] | None = ydl.extract_info(url=url, download=False)
 
     # Extract formats and find audio formats
     formats: Any = video_info.get("formats", None)
